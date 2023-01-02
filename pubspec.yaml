@@ -30,6 +30,10 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter_svg: ^1.1.6
+  voice_message_package: ^0.0.74
+  auto_size_text: ^3.0.0
+
+
 
   flutter:
     sdk: flutter

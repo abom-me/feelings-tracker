@@ -1,37 +1,50 @@
 [
   {
     "from":"1",
+    "type":"text",
     "message": "Hello Doctor, How are you?",
     "time":"11:11 AM"
   },
   {
     "from":"2",
+    "type":"text",
     "message": "Welcome Nasr, I'm fine 🔥 ",
     "time":"11:15 AM"
   },
   {
     "from":"2",
+    "type":"text",
     "message": "How do you feel today?🧐",
     "time":"11:15 AM"
   },
   {
     "from":"1",
+    "type":"text",
     "message": "I'm not good 😢, cuz I have final exam and i didn't study",
     "time":"11:30 AM"
   },
   {
     "from":"2",
+    "type":"text",
     "message": "Don't worry  you still have a time to study, just start from now 📚",
     "time":"11:33 AM"
   },
   {
     "from":"1",
+    "type":"text",
     "message": "Ok, I will Thank you 💪",
     "time":"11:34 AM"
   },
   {
     "from":"2",
+    "type":"text",
     "message": "All The Best 😎👋",
+    "time":"11:50 AM"
+  },
+  {
+    "from":"1",
+    "type":"voice",
+    "message": "https://www.abom.me/assets_flutter/voice.mp3",
     "time":"11:50 AM"
   }
 ]

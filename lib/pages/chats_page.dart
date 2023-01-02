@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:voice_message_package/voice_message_package.dart';
 
 import '../settings.dart';
 
@@ -15,11 +16,14 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
+  TextEditingController msg = TextEditingController();
   ScrollController _scrollController = ScrollController();
 
   _scrollToBottom() {
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    Timer(const Duration(milliseconds: 100), () {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    });
   }
 
   List messages = [];
@@ -166,41 +170,82 @@ class _ChatsState extends State<Chats> {
                                 ? background
                                 : Color(0xfff0f5ff),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                messages[i]['message'],
-                                style: TextStyle(
-                                    color: messages[i]['from'] == '1'
-                                        ? Colors.white
-                                        : Color(0xff495369),
-                                    fontSize: 17),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 2,
-                                  ),
-                                  Text(
-                                    messages[i]['time'],
-                                    style: TextStyle(
-                                        color: messages[i]['from'] == '1'
-                                            ? Colors.white.withOpacity(0.5)
-                                            : Color(0xff495369)
-                                                .withOpacity(0.5),
-                                        fontSize: 11),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                          child: messages[i]['type'] == 'text'
+                              ? Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      messages[i]['message'],
+                                      style: TextStyle(
+                                          color: messages[i]['from'] == '1'
+                                              ? Colors.white
+                                              : Color(0xff495369),
+                                          fontSize: 17),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Text(
+                                          messages[i]['time'],
+                                          style: TextStyle(
+                                              color: messages[i]['from'] == '1'
+                                                  ? Colors.white
+                                                      .withOpacity(0.5)
+                                                  : Color(0xff495369)
+                                                      .withOpacity(0.5),
+                                              fontSize: 11),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    VoiceMessage(
+                                      meBgColor: background,
+                                      audioSrc: messages[i]['message'],
+                                      played:
+                                          false, // To show played badge or not.
+                                      me: messages[i]['from'] == '1'
+                                          ? true
+                                          : false, // Set message side.
+                                      onPlay:
+                                          () {}, // Do something when voice played.
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Text(
+                                          messages[i]['time'],
+                                          style: TextStyle(
+                                              color: messages[i]['from'] == '1'
+                                                  ? Colors.white
+                                                      .withOpacity(0.5)
+                                                  : Color(0xff495369)
+                                                      .withOpacity(0.5),
+                                              fontSize: 11),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                         ),
                       ],
                     );
@@ -232,11 +277,14 @@ class _ChatsState extends State<Chats> {
                         width: size.width * 0.7,
                         height: 70,
                         child: TextFormField(
+                          textDirection: TextDirection.ltr,
+                          onChanged: (v) {
+                            setState(() {});
+                          },
+                          controller: msg,
                           style: const TextStyle(
                               color: Colors.black54, fontSize: 17),
-                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
-                            counterText: "",
                             border: InputBorder.none,
                             hintText: 'Write a message...',
                             hintStyle:
@@ -244,16 +292,34 @@ class _ChatsState extends State<Chats> {
                           ),
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                            color: Color(0xff2684d6),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: SvgPicture.asset(
-                          'assets/mic-solid.svg',
-                          color: Colors.white,
+                      InkWell(
+                        onTap: msg.text.isNotEmpty
+                            ? () async {
+                                messages.add({
+                                  "from": "1",
+                                  "type": "text",
+                                  "message": msg.text,
+                                  "time": 'now',
+                                });
+                                await _scrollToBottom();
+                                setState(() {
+                                  msg.clear();
+                                });
+                              }
+                            : () {},
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              color: Color(0xff2684d6),
+                              borderRadius: BorderRadius.circular(15)),
+                          child: SvgPicture.asset(
+                            msg.text.isEmpty
+                                ? 'assets/mic-solid.svg'
+                                : 'assets/send-solid.svg',
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
