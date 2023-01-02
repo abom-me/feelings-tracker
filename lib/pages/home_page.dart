@@ -1,5 +1,8 @@
+import 'package:fellings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'chats_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xff2471B7),
+      backgroundColor: background,
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -212,80 +215,95 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 35,
                           ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 20),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
-                            width: size.width,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.04),
-                                      blurRadius: 15,
-                                      spreadRadius: 15,
-                                      offset: Offset(10, 10))
-                                ]),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(15),
-                                      height: 70,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(17),
-                                        color: Colors.deepOrangeAccent,
+
+                          /// Chatting ----------------------------------------------
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  CustomPageRoute(
+                                      child: const Chats(),
+                                      axis: AxisDirection.up));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 20),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
+                              width: size.width,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black.withOpacity(0.04),
+                                        blurRadius: 15,
+                                        spreadRadius: 15,
+                                        offset: Offset(10, 10))
+                                  ]),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(15),
+                                        height: 70,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                          color: Colors.deepOrangeAccent,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          'assets/chat-text-solid.svg',
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      child: SvgPicture.asset(
-                                        'assets/chat-text-solid.svg',
-                                        color: Colors.white,
+                                      SizedBox(
+                                        width: 20,
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Chat",
-                                          style: TextStyle(
-                                              color: Colors.black87
-                                                  .withOpacity(0.7),
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          "Chatting with psychiatrist",
-                                          style: TextStyle(
-                                              color:
-                                                  Colors.black.withOpacity(0.3),
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.black.withOpacity(0.3),
-                                )
-                              ],
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Chat",
+                                            style: TextStyle(
+                                                color: Colors.black87
+                                                    .withOpacity(0.7),
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "Chatting with psychiatrist",
+                                            style: TextStyle(
+                                                color: Colors.black
+                                                    .withOpacity(0.3),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.black.withOpacity(0.3),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
+
+                          /// Booking -------------------------------------------------
                           Container(
                             margin: EdgeInsets.only(bottom: 20),
                             padding: EdgeInsets.symmetric(
@@ -360,6 +378,8 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
+
+                          /// Advice -------------------------------------------------
                           Container(
                             margin: EdgeInsets.only(bottom: 20),
                             padding: EdgeInsets.symmetric(
