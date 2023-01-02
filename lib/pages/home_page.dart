@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                         height: 20,
                       ),
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(15),
                         decoration: BoxDecoration(
                             color: Color(0xff2684d6).withOpacity(0.7),
                             borderRadius: BorderRadius.circular(11)),
@@ -122,7 +122,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Text(
                               "Search",
-                              style: TextStyle(color: Colors.white),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
                             )
                           ],
                         ),
