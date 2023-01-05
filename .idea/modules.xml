@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/fellings.iml" filepath="$PROJECT_DIR$/fellings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/fellings_android.iml" filepath="$PROJECT_DIR$/android/fellings_android.iml" />
     </modules>
   </component>
 </project>
